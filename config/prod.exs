@@ -1,4 +1,5 @@
 use Mix.Config
+IO.inspect("prod.exs")
 
 # For production, don't forget to configure the url host
 # to something meaningful, Phoenix uses this information
