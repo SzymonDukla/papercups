@@ -1,7 +1,7 @@
 version: "3.2"
 
 services:
-  web:
+  papercups-web:
     image: papercups/papercups:latest
     ports:
       - "3000:3000"
@@ -9,12 +9,12 @@ services:
     command:
       - ./docker-entrypoint.sh
     depends_on:
-      - db
+      - db-1
     environment:
       DATABASE_URL: "ecto://postgres:postgres@db/postgres"
-  db:
+  db-1:
     image: postgres:alpine
-    container_name: papercups
+    container_name: database
     ports:
       - "5432:5432"
     environment:

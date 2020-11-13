@@ -7,11 +7,6 @@ database_url =
     For example: ecto://USER:PASS@HOST/DATABASE
     """
 
-config :chat_api, ChatApi.Repo,
-  ssl: true,
-  url: database_url,
-  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
-
 secret_key_base =
   System.get_env("SECRET_KEY_BASE") ||
     raise """
@@ -19,19 +14,19 @@ secret_key_base =
     You can generate one by calling: mix phx.gen.secret
     """
 
+config :chat_api,
+  ecto_repos: [ChatApi.Repo],
+  generators: [binary_id: true]
+
+config :chat_api, ChatApi.Repo,
+  ssl: false,
+  url: database_url,
+  pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
+
 config :chat_api, ChatApiWeb.Endpoint,
   http: [
     port: String.to_integer(System.get_env("PORT") || "4000"),
     transport_options: [socket_opts: [:inet6]]
   ],
-  secret_key_base: secret_key_base
-
-# ## Using releases (Elixir v1.9+)
-#
-# If you are doing OTP releases, you need to instruct Phoenix
-# to start each relevant endpoint:
-#
-#     config :chat_api, ChatApiWeb.Endpoint, server: true
-#
-# Then you can assemble a release by calling `mix release`.
-# See `mix help release` for more information.
+  secret_key_base: secret_key_base,
+  server: true

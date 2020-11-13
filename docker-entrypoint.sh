@@ -1,16 +1,14 @@
-#!/bin/bash
-set -euo pipefail
-
+#!/bin/sh
 set -e
 
 if [[ "$1" = 'run' ]]; then
-      exec MIX_ENV=prod mix phx.server
-elif [[ "$1" = 'setup' ]]; then
-      exec mix ecto.setup
-elif [[ "$1" = 'migrate' ]]; then
-      exec mix ecto.migrate
+      exec /app/bin/papercups start
+
+elif [[ "$1" = 'db' ]]; then
+      exec /app/"$2".sh
 else
       exec "$@"
 fi
 
 exec "$@"
+
